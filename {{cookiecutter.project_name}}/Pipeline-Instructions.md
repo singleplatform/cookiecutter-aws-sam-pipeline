@@ -19,22 +19,10 @@ Replace the placeholders with values corresponding to your GitHub Repo and Token
 
 ```bash
 aws ssm put-parameter \
-    --name "/service/{{cookiecutter.project_name.lower().replace(' ', '-')}}/github/repo" \
-    --description "Github Repository name for Cloudformation Stack {{cookiecutter.project_name.lower().replace(' ', '-')}}-pipeline" \
-    --type "String" \
-    --value "GITHUB_REPO_NAME"
-
-aws ssm put-parameter \
     --name "/service/{{cookiecutter.project_name.lower().replace(' ', '-')}}/github/token" \
     --description "Github Token for Cloudformation Stack {{cookiecutter.project_name.lower().replace(' ', '-')}}-pipeline" \
     --type "String" \
     --value "TOKEN"
-
-aws ssm put-parameter \
-    --name "/service/{{cookiecutter.project_name.lower().replace(' ', '-')}}/github/user" \
-    --description "Github Username for Cloudformation Stack {{cookiecutter.project_name.lower().replace(' ', '-')}}-pipeline" \
-    --type "String" \
-    --value "GITHUB_USER"
 ```
 
 **NOTE:** Keep in mind that these Parameters will only be available within the same region you're deploying this Pipeline stack. Also, if these values ever change you will need to [update these parameters](https://docs.aws.amazon.com/cli/latest/reference/ssm/put-parameter.html) as well as update the "{{cookiecutter.project_name.lower().replace(' ', '-')}}-pipeline" Cloudformation stack.

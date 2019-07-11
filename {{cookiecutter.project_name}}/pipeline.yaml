@@ -19,8 +19,8 @@ Parameters:
 
   GithubRepo:
     Description: Gitub Repository name
-    Type: AWS::SSM::Parameter::Value<String>
-    Default: /service/{{cookiecutter.project_name.lower().replace(' ', '-')}}/github/repo
+    Type: String
+    Default: {{cookiecutter.project_name.lower().replace(' ', '-')}}
 
   GithubToken:
     Description: Github OAuth Token with full permissions on admin:repo_hook and repo
@@ -30,8 +30,8 @@ Parameters:
 
   GithubUser:
     Description: Github user where the repository lives
-    Type: AWS::SSM::Parameter::Value<String>
-    Default: /service/{{cookiecutter.project_name.lower().replace(' ', '-')}}/github/user
+    Type: String
+    Default: singleplatform
 {%- endif%}
 
 
