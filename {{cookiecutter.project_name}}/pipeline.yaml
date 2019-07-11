@@ -12,7 +12,7 @@ Description: >
       AWS CodePipeline: Manages and Runs the Continuous Integration and Continuous Deployment pipeline
       AWS CloudFormation: Manages SAM templates and creates the Infrastructure necessary for each environment
       AWS IAM: Manages Identity and Access across Services outlined above
-{%- if cookiecutter.source_code_repo == "Github" or cookiecutter.create_project_artifact_bucket %}
+{%- if cookiecutter.source_code_repo == "Github" or not cookiecutter.create_isolated_project_artifact_bucket == 'y' %}
 
 
 Parameters:
@@ -35,7 +35,7 @@ Parameters:
     Type: String
     Default: singleplatform
 {%- endif%}
-{%- if not cookiecutter.create_project_artifact_bucket %}
+{%- if not cookiecutter.create_isolated_project_artifact_bucket == 'y' %}
 
   BuildArtifactsBucket:
     Description: S3 Bucket for build artifacts
@@ -55,8 +55,8 @@ Resources:
       RepositoryDescription: {{cookiecutter.project_name}} service repository
 {%- endif %}
 
-  # CodeBuild project and resources ({% if cookiecutter.create_project_artifact_bucket %}S3 Bucket for build artifacts, {% endif %}Role, Project)
-{%- if cookiecutter.create_project_artifact_bucket %}
+  # CodeBuild project and resources ({% if cookiecutter.create_isolated_project_artifact_bucket == 'y' %}S3 Bucket for build artifacts, {% endif %}Role, Project)
+{%- if cookiecutter.create_isolated_project_artifact_bucket == 'y' %}
   BuildArtifactsBucket:
     Type: AWS::S3::Bucket
     Properties:
