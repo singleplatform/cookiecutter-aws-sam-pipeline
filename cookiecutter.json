@@ -1,5 +1,6 @@
 {
     "project_name": "Name of the project",
+    "project_slug": "{{cookiecutter.project_name.lower().replace(' ', '-')}}",
     "source_code_repo": [
         "Github",
         "CodeCommit"
