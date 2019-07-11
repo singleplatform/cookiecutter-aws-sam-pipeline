@@ -4,5 +4,6 @@
     "source_code_repo": [
         "Github",
         "CodeCommit"
-    ]
+    ],
+    "create_project_artifact_bucket": ["False", "True"]
 }
