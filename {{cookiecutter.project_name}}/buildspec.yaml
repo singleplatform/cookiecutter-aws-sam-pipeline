@@ -25,7 +25,6 @@ phases:
       # Use Pre-Build phase to run tests, install any code deps or any other customization before build
       # - echo "[Pre-Build phase]"
       - tox -e flake8
-      - tox -e requirements.lock
       - tox
   build:
     commands:
