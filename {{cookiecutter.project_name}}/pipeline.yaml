@@ -130,7 +130,7 @@ Resources:
               Configuration:
                 Owner: !Ref GithubUser
                 Repo: !Ref GithubRepo
-                Branch: master
+                Branch: {{ cookiecutter.branch }}
                 OAuthToken: !Ref GithubToken
               OutputArtifacts:
                 - Name: SourceCodeAsZip
@@ -142,7 +142,7 @@ Resources:
                 Version: "1"
               Configuration:
                 RepositoryName: !GetAtt CodeRepository.Name
-                BranchName: master
+                BranchName: {{ cookiecutter.branch }}
               OutputArtifacts:
                 - Name: SourceCodeAsZip
               RunOrder: 1
