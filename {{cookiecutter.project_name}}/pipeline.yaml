@@ -40,7 +40,7 @@ Parameters:
   BuildArtifactsBucket:
     Description: S3 Bucket for build artifacts
     Type: String
-    Default: arn:aws:s3:::aws-codebuild-us-east-1-197555324727
+    Default: aws-codebuild-us-east-1-197555324727
 {%- endif%}
 
 
