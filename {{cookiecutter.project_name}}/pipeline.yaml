@@ -80,7 +80,7 @@ Resources:
     Type: AWS::CodeBuild::Project
     Properties:
       Name: {{cookiecutter.project_slug}}
-      Description: Build project for the {{cookiecutter.project_name}}
+      Description: Build project for {{cookiecutter.project_name}}
       Artifacts:
         Type: CODEPIPELINE
       Environment:
