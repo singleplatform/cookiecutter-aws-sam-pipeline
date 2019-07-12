@@ -87,7 +87,7 @@ Resources:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
         # More info on Images: https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-available.html
-        Image: aws/codebuild/python:3.6.5
+        Image: aws/codebuild/standard:1.0
         EnvironmentVariables:
           -
             Name: BUILD_OUTPUT_BUCKET
