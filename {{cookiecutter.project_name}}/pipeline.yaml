@@ -48,15 +48,15 @@ Parameters:
 
 Resources:
 
-  # SOURCE
 {%- if cookiecutter.source_code_repo == "CodeCommit" %}
+  # SOURCE
   CodeRepository:
     Type: AWS::CodeCommit::Repository
     Properties:
       RepositoryName: {{cookiecutter.project_slug}}
       RepositoryDescription: {{cookiecutter.project_name}} service repository
-{%- endif %}
 
+{%- endif %}
   # CodeBuild project and resources ({% if not cookiecutter.use_shared_project_artifact_bucket == 'y' %}S3 Bucket for build artifacts, {% endif %}Role, Project)
 {%- if not cookiecutter.use_shared_project_artifact_bucket == 'y' %}
   BuildArtifactsBucket:
@@ -134,7 +134,7 @@ Resources:
                 Repo: !Ref GithubRepo
                 Branch: {{ cookiecutter.branch }}
 {%- if cookiecutter.use_shared_github_token == "y" %}
-                OAuthToken: {% raw %}'{{resolve:secretsmanager:arn:aws:secretsmanager:us-east-1:197555324727:secret:GithubToken-B1CgCd}}'{% endraw %}
+                OAuthToken: {% raw %}'{{resolve:secretsmanager:arn:aws:secretsmanager:us-east-1:197555324727:secret:GithubToken-B1CgCd:SecretString:GithubToken}}'{% endraw %}
 {%- else %}
                 OAuthToken: !Ref GithubToken
 {%- endif %}
@@ -366,6 +366,13 @@ Resources:
                   - 'lambda:ListFunctions'
                   - 'lambda:InvokeAsyc'
                 Resource: '*'
+{%- if cookiecutter.use_shared_github_token == "y" %}
+              -
+                Effect: Allow
+                Action:
+                  - 'secretsmanager:GetSecretValue'
+                Resource: 'arn:aws:secretsmanager:us-east-1:197555324727:secret:GithubToken-B1CgCd'
+{%- endif %}
         - PolicyName: CodePipelineCodeAndArtifactsS3Bucket
           PolicyDocument:
             Version: '2012-10-17'
@@ -379,7 +386,7 @@ Resources:
                 Effect: Allow
                 Action: 'codecommit:*'
                 Resource: !Sub 'arn:aws:codecommit:${AWS::Region}:${AWS::AccountId}:${CodeRepository.Name}'
-{% endif %}
+{%- endif %}
         - PolicyName: CodePipelineCodeBuildAndCloudformationAccess
           PolicyDocument:
             Version: '2012-10-17'
