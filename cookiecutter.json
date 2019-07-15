@@ -5,6 +5,7 @@
         "Github",
         "CodeCommit"
     ],
-    "create_isolated_project_artifact_bucket": ["n", "y"],
+    "use_shared_project_artifact_bucket": ["y", "n"],
+    "use_shared_github_token": ["y", "n"],
     "branch": "master"
 }

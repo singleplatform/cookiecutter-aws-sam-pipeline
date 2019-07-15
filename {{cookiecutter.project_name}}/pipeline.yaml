@@ -12,11 +12,11 @@ Description: >
       AWS CodePipeline: Manages and Runs the Continuous Integration and Continuous Deployment pipeline
       AWS CloudFormation: Manages SAM templates and creates the Infrastructure necessary for each environment
       AWS IAM: Manages Identity and Access across Services outlined above
-{%- if cookiecutter.source_code_repo == "Github" or not cookiecutter.create_isolated_project_artifact_bucket == 'y' %}
+{%- if cookiecutter.source_code_repo == "Github" or cookiecutter.use_shared_project_artifact_bucket == 'y' %}
 
 
 Parameters:
-{%- endif%}
+{%- endif %}
 {%- if cookiecutter.source_code_repo == "Github" %}
 
   GithubRepo:
@@ -24,24 +24,26 @@ Parameters:
     Type: String
     Default: {{cookiecutter.project_slug}}
 
+{%- if not cookiecutter.use_shared_github_token == "y" %}
   GithubToken:
     Description: Github OAuth Token with full permissions on admin:repo_hook and repo
     Type: AWS::SSM::Parameter::Value<String>
     NoEcho: true
     Default: /service/github/token
 
+{%- endif %}
   GithubUser:
     Description: Github user where the repository lives
     Type: String
     Default: singleplatform
-{%- endif%}
-{%- if not cookiecutter.create_isolated_project_artifact_bucket == 'y' %}
+{%- endif %}
+{%- if cookiecutter.use_shared_project_artifact_bucket == 'y' %}
 
   BuildArtifactsBucket:
     Description: S3 Bucket for build artifacts
     Type: String
     Default: aws-codebuild-us-east-1-197555324727
-{%- endif%}
+{%- endif %}
 
 
 Resources:
@@ -55,8 +57,8 @@ Resources:
       RepositoryDescription: {{cookiecutter.project_name}} service repository
 {%- endif %}
 
-  # CodeBuild project and resources ({% if cookiecutter.create_isolated_project_artifact_bucket == 'y' %}S3 Bucket for build artifacts, {% endif %}Role, Project)
-{%- if cookiecutter.create_isolated_project_artifact_bucket == 'y' %}
+  # CodeBuild project and resources ({% if not cookiecutter.use_shared_project_artifact_bucket == 'y' %}S3 Bucket for build artifacts, {% endif %}Role, Project)
+{%- if not cookiecutter.use_shared_project_artifact_bucket == 'y' %}
   BuildArtifactsBucket:
     Type: AWS::S3::Bucket
     Properties:
@@ -131,7 +133,14 @@ Resources:
                 Owner: !Ref GithubUser
                 Repo: !Ref GithubRepo
                 Branch: {{ cookiecutter.branch }}
+{%- if cookiecutter.use_shared_github_token == "y" %}
+{% raw %}
+                OAuthToken: '{{resolve:secretsmanager:arn:aws:secretsmanager:us-east-1:197555324727:secret:GithubToken-B1CgCd
+}}'
+{% endraw %}
+{% else %}
                 OAuthToken: !Ref GithubToken
+{% endif %}
               OutputArtifacts:
                 - Name: SourceCodeAsZip
               RunOrder: 1
