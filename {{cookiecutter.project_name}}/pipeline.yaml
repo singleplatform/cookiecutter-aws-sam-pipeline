@@ -134,8 +134,7 @@ Resources:
                 Repo: !Ref GithubRepo
                 Branch: {{ cookiecutter.branch }}
 {%- if cookiecutter.use_shared_github_token == "y" %}
-                OAuthToken: {% raw %}'{{resolve:secretsmanager:arn:aws:secretsmanager:us-east-1:197555324727:secret:GithubToken-B1CgCd
-}}'{% endraw %}
+                OAuthToken: {% raw %}'{{resolve:secretsmanager:arn:aws:secretsmanager:us-east-1:197555324727:secret:GithubToken-B1CgCd}}'{% endraw %}
 {%- else %}
                 OAuthToken: !Ref GithubToken
 {%- endif %}
