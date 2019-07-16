@@ -97,6 +97,11 @@ Resources:
       Cache:
         Type: S3
         Location: !Sub ${BuildArtifactsBucket}/codebuild-cache
+      LogsConfig:
+        CloudWatchLogs:
+          GroupName: /aws/codebuild/pipeline
+          Status: ENABLED
+          StreamName: !Ref AWS::StackName
       ServiceRole: !GetAtt CodeBuildServiceRole.Arn
       Source:
         Type: CODEPIPELINE
